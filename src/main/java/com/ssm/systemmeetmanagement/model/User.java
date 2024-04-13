@@ -1,15 +1,15 @@
-package model;
+package com.ssm.systemmeetmanagement.model;
 
-import enums.Rol;
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-
-import java.util.Set;
+import java.util.Collection;
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @Table(name = "user")
 public class User {
@@ -20,5 +20,6 @@ public class User {
     private String surname;
     private String email;
     private String password;
-    private Set<Rol> roles;
+    @OneToMany
+    private Collection<Role> roles;
 }
