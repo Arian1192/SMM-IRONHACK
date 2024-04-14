@@ -5,10 +5,12 @@ import com.ssm.systemmeetmanagement.model.User;
 import com.ssm.systemmeetmanagement.repository.UserRepository;
 import com.ssm.systemmeetmanagement.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UserImplementation implements IUserService {
 
     @Autowired
