@@ -1,20 +1,21 @@
 package com.ssm.systemmeetmanagement.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
-@EqualsAndHashCode
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "Role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
     private String name;
+
+    public Role(String name) {
+        this.name = name;
+    }
 }

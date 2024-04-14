@@ -50,11 +50,6 @@ class UserTest {
 
     }
 
-    @Test
-    void setId() {
-        dummyUser.setId(2L);
-        assertEquals(2L, dummyUser.getId());
-    }
 
     @Test
     void setName() {

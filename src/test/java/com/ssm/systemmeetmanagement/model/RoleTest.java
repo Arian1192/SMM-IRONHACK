@@ -24,12 +24,6 @@ class RoleTest {
     }
 
     @Test
-    void setId() {
-        dummyRole.setId(2L);
-        assertEquals(2L, dummyRole.getId());
-    }
-
-    @Test
     void setName() {
         String sysAdmin = "SYSADMIN";
         dummyRole.setName(sysAdmin);
