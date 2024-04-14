@@ -19,7 +19,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      MYSQL_DATABASE: smm-management-test
+      MYSQL_DATABASE: smm_management
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: root
 
