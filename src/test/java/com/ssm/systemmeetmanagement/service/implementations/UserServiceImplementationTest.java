@@ -16,7 +16,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class UserImplementationTest {
+class UserServiceImplementationTest {
 
     @Autowired
     private IUserService userService;
@@ -29,12 +29,14 @@ class UserImplementationTest {
 
     private static Role adminRole;
 
+    private static Role userRole;
+
     private static User newUser;
 
     @BeforeEach
     void setUp() {
         adminRole = new Role("ADMIN");
-        Role userRole = new Role("USER");
+        userRole = new Role("USER");
         roleRepository.saveAll(Arrays.asList(adminRole, userRole));
         Collection<Role> collectionsOfRoles = new ArrayList<>(Arrays.asList(adminRole, userRole));
         newUser = new User("Arian", "Collaso", "arian.collaso.rodrigues@gmail.com", "password", collectionsOfRoles );
@@ -69,5 +71,16 @@ class UserImplementationTest {
     void test_findUserById() {
         Optional<User> user = userService.findUserById(newUser.getId());
         user.ifPresent(userFound -> assertEquals("Arian", userFound.getName()));
+    }
+
+    @Test
+    void createNewUser() {
+        User newUser = new User("Arian", "Collaso", "arian.collaso.rodriguez@gmail.com", "patata");
+        userService.createNewUser(newUser);
+        Optional<List<User>> maybeListOfUsers = userService.findAllUsersByRoles(userRole);
+        if(maybeListOfUsers.isPresent()){
+            User user = maybeListOfUsers.get().get(0);
+            assertTrue(user.getRoles().contains("USER"));
+        }
     }
 }
