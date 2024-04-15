@@ -29,7 +29,7 @@ class UserServiceImplementationTest {
 
     private static Role adminRole;
 
-    private static Role userRole;
+    private Role userRole;
 
     private static User newUser;
 
@@ -75,12 +75,14 @@ class UserServiceImplementationTest {
 
     @Test
     void createNewUser() {
-        User newUser = new User("Arian", "Collaso", "arian.collaso.rodriguez@gmail.com", "patata");
+        User newUser = new User("Julian", "Perez", "julia.perez@gmail.com");
         userService.createNewUser(newUser);
-        Optional<List<User>> maybeListOfUsers = userService.findAllUsersByRoles(userRole);
+        Optional<List<User>> maybeListOfUsers = userService.findAllUsers();
         if(maybeListOfUsers.isPresent()){
-            User user = maybeListOfUsers.get().get(0);
-            assertTrue(user.getRoles().contains("USER"));
+            List<User> listOfUser = maybeListOfUsers.get();
+            Collection<Role> roles = listOfUser.get(1).getRoles();
+            assertFalse(roles.isEmpty());
+            assertTrue(roles.stream().anyMatch(role -> role.getName().equals("USER")));
         }
     }
 }

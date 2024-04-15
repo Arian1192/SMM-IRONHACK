@@ -6,8 +6,8 @@ import com.ssm.systemmeetmanagement.repository.RoleRepository;
 import com.ssm.systemmeetmanagement.repository.UserRepository;
 import com.ssm.systemmeetmanagement.service.dto.RoleDto;
 import com.ssm.systemmeetmanagement.service.interfaces.IUserService;
-import com.ssm.systemmeetmanagement.utils.RoleConverter;
-import com.ssm.systemmeetmanagement.utils.UserConverter;
+import com.ssm.systemmeetmanagement.utils.Utilities;
+import com.ssm.systemmeetmanagement.utils.abstractConverter.RoleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,9 @@ public class UserServiceImplementation implements IUserService {
     @Override
     public void createNewUser(User user) {
         user.setRoles(Collections.singleton(roleRepository.findByName("USER").orElseGet(this::createAndSaveUserRole)));
+        user.setPassword(Utilities.generateRandomPassword());
         userRepository.save(user);
+        // Mandar un mail con las credenciales al usuario para que se conecte y cambie su contraseña.
     }
 
     private Role createAndSaveUserRole(){

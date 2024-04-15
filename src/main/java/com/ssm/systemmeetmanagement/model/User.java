@@ -26,23 +26,21 @@ public class User {
     @NotEmpty(message = "You must supply a email")
     private String email;
     private String password;
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Collection<Role> roles;
 
 
     public User(String name, String surname, String email, String password, Collection<Role> roles) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
+        setEmail(email);
+        setPassword(password);
+        setName(name);
+        setSurname(surname);
+        setRoles(roles);
     }
 
-    public User(String name, String surname, String email, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-
+    public User(String name, String surname, String email) {
+        setName(name);
+        setSurname(surname);
+        setEmail(email);
     }
 }

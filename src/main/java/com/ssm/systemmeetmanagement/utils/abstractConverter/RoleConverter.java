@@ -1,4 +1,4 @@
-package com.ssm.systemmeetmanagement.utils;
+package com.ssm.systemmeetmanagement.utils.abstractConverter;
 
 import com.ssm.systemmeetmanagement.model.Role;
 import com.ssm.systemmeetmanagement.service.dto.RoleDto;

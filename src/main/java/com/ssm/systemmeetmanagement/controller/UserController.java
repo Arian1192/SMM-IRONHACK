@@ -2,7 +2,7 @@ package com.ssm.systemmeetmanagement.controller;
 
 import com.ssm.systemmeetmanagement.service.dto.UserDto;
 import com.ssm.systemmeetmanagement.service.interfaces.IUserService;
-import com.ssm.systemmeetmanagement.utils.UserConverter;
+import com.ssm.systemmeetmanagement.utils.abstractConverter.UserConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,6 @@ public class UserController {
     @PostMapping("/admin/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void createNewUser(@RequestBody UserDto userDto){
-        UserConverter converter = new UserConverter();
-        iUserService.createNewUser(converter.fromDto(userDto));
+        iUserService.createNewUser(new UserConverter().fromDto(userDto));
     }
 }
