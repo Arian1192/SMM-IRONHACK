@@ -1,2 +1,9 @@
-package com.ssm.systemmeetmanagement.service.dto;public class EmailAndPasswordDto {
+package com.ssm.systemmeetmanagement.service.dto;
+
+import lombok.Data;
+
+@Data
+public class EmailAndPasswordDto {
+    final String email;
+    final String password;
 }
