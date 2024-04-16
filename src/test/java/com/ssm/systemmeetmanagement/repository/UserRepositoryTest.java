@@ -24,7 +24,7 @@ class UserRepositoryTest {
     private Role dummyRoleUser;
     private Role dummyRoleAdmin;
 
-    private Collection<Role> collectionOfRoles = new ArrayList<>();
+    private Set<Role> setOfRoles = new HashSet<>();
 
     private User dummyUser;
 
@@ -33,9 +33,9 @@ class UserRepositoryTest {
     void setUp() {
         dummyRoleUser = new Role("USER");
         dummyRoleAdmin = new Role("ADMIN");
-        collectionOfRoles.addAll(Arrays.asList(dummyRoleAdmin, dummyRoleUser));
+        setOfRoles.addAll(Arrays.asList(dummyRoleAdmin, dummyRoleUser));
         roleRepository.saveAll(Arrays.asList(dummyRoleUser, dummyRoleAdmin));
-        dummyUser = new User("Arian", "Collaso", "arian.collaso.rodriguez@gmail.com", "patata", collectionOfRoles);
+        dummyUser = new User("Arian", "Collaso", "arian.collaso.rodriguez@gmail.com", "patata", setOfRoles);
         userRepository.save(dummyUser);
     }
 
@@ -57,7 +57,7 @@ class UserRepositoryTest {
 
     @Test
     void test_findAllUsers(){
-        User newUser = new User("Ejemplo", "Ejemplo", "ejemplo@gmail.com", "ejemploPassword", collectionOfRoles);
+        User newUser = new User("Ejemplo", "Ejemplo", "ejemplo@gmail.com", "ejemploPassword", setOfRoles);
         userRepository.save(newUser);
         Optional<List<User>> maybeListOfUser = Optional.of(userRepository.findAll());
         assertEquals(2, maybeListOfUser.get().size());

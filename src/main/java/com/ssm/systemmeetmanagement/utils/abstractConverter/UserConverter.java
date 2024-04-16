@@ -1,20 +1,21 @@
 package com.ssm.systemmeetmanagement.utils.abstractConverter;
 
+import com.ssm.systemmeetmanagement.model.PermissionEntity;
 import com.ssm.systemmeetmanagement.model.Role;
 import com.ssm.systemmeetmanagement.model.User;
+import com.ssm.systemmeetmanagement.service.dto.PermissionEntityDto;
 import com.ssm.systemmeetmanagement.service.dto.RoleDto;
 import com.ssm.systemmeetmanagement.service.dto.UserDto;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 public class UserConverter extends AbstractConverter<User, UserDto> {
 
     @Override
     public User fromDto(UserDto dto) {
         User user = new User();
-        Collection<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         if(dto.getRoles() != null){
         for(Object roleObj: dto.getRoles()){
             if(roleObj instanceof Role role){
@@ -26,6 +27,10 @@ public class UserConverter extends AbstractConverter<User, UserDto> {
         user.setSurname(dto.getSurname());
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
+        user.setEnabled(dto.isEnabled());
+        user.setAccountNoExpired(dto.isAccountNoExpired());
+        user.setAccountNoLocked(dto.isAccountNoLocked());
+        user.setCredentialNoExpired(dto.isCredentialNoExpired());
         if(roles.isEmpty()){
             user.setRoles(null);
         }
@@ -35,16 +40,43 @@ public class UserConverter extends AbstractConverter<User, UserDto> {
     @Override
     public UserDto fromEntity(User entity) {
         UserDto user = new UserDto();
-        Collection<RoleDto> roleDto = new ArrayList<>();
-        for(Object roleObj: entity.getRoles()){
-            if(roleObj instanceof RoleDto role){
-                roleDto.add(role);
-            }
+        Set<RoleDto> roleDtos = new HashSet<>();
+
+        for(Role role: entity.getRoles()){
+            RoleDto roleDto = new RoleDto(role.getName(), convertPermissionEntitiesToDtos(role.getPermissionEntityList()));
+            roleDtos.add(roleDto);
         }
         user.setEmail(entity.getEmail());
         user.setName(entity.getName());
         user.setPassword(entity.getPassword());
-        user.setRoles(roleDto);
+        user.setRoles(roleDtos);
+        user.setAccountNoLocked(entity.isAccountNoLocked());
+        user.setEnabled(entity.isEnabled());
+        user.setAccountNoExpired(entity.isAccountNoExpired());
+        user.setCredentialNoExpired(entity.isCredentialNoExpired());
         return user;
     }
+
+    private Set<PermissionEntityDto> convertPermissionEntitiesToDtos(Set<PermissionEntity> permissionEntities) {
+        Set<PermissionEntityDto> permissionEntityDtos = new HashSet<>();
+
+        for (PermissionEntity permissionEntity : permissionEntities) {
+            PermissionEntityDto permissionEntityDto = new PermissionEntityDto(permissionEntity.getName());
+            permissionEntityDtos.add(permissionEntityDto);
+        }
+
+        return permissionEntityDtos;
+    }
+
+    private Set<PermissionEntity> convertPermissionEntitiesDtoToEntity(Set<PermissionEntityDto> permissionEntitiesDto) {
+        Set<PermissionEntity> permissionEntity = new HashSet<>();
+
+        for (PermissionEntityDto permissionEntityDto : permissionEntitiesDto) {
+            PermissionEntity permission = new PermissionEntity(permissionEntityDto.getName());
+            permissionEntity.add(permission);
+        }
+
+        return permissionEntity;
+    }
+
 }

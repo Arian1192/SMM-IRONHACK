@@ -38,8 +38,8 @@ class UserServiceImplementationTest {
         adminRole = new Role("ADMIN");
         userRole = new Role("USER");
         roleRepository.saveAll(Arrays.asList(adminRole, userRole));
-        Collection<Role> collectionsOfRoles = new ArrayList<>(Arrays.asList(adminRole, userRole));
-        newUser = new User("Arian", "Collaso", "arian.collaso.rodrigues@gmail.com", "password", collectionsOfRoles );
+        Set<Role> setOfRoles = new HashSet<>(Arrays.asList(adminRole, userRole));
+        newUser = new User("Arian", "Collaso", "arian.collaso.rodrigues@gmail.com", "password", setOfRoles );
         userService.save(newUser);
 
     }

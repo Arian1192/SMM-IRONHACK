@@ -14,8 +14,6 @@ import java.security.SecureRandom;
 
 public abstract class Utilities {
 
-    @Autowired
-    private UserRepository userRepository;
     private Utilities() {
         throw new IllegalStateException("Utility class");
     }
@@ -35,12 +33,10 @@ public abstract class Utilities {
     public static final String SECRET_KEY = System.getenv("SECRET_KEY");
 
     public static String generateToken(User user){
-
         Claims claims  = Jwts.claims().setSubject(user.getName());
         claims.put("userId", user.getId());
         claims.put("role", user.getRoles());
         claims.put("email", user.getEmail());
-
         return Jwts.builder().setClaims(claims)
                 .signWith(getSigningKey(), SignatureAlgorithm.ES256).compact();
     }

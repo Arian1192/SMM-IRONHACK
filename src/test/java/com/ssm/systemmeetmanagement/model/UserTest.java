@@ -15,17 +15,12 @@ class UserTest {
 
     @BeforeEach
     void setUp() {
-        Role newRole = new Role(1L, "USER");
-        Collection<Role> newCollectionRoles = new ArrayList<>();
-        newCollectionRoles.add(newRole);
+        Role newRole = new Role( "USER");
+        Set<Role> newSetRoles = new HashSet<>();
+        newSetRoles.add(newRole);
 
-        dummyUser = new User(1L, "Pedro", "Perez", "pedro.perez@gmail.com", "password", newCollectionRoles );
+        dummyUser = new User("Pedro", "Perez", "pedro.perez@gmail.com", "password", newSetRoles  );
 
-    }
-
-    @Test
-    void getId() {
-        assertEquals(1L, dummyUser.getId());
     }
 
     @Test
@@ -74,26 +69,26 @@ class UserTest {
 
     @Test
     void setRoles() {
-        Role newRole = new Role(2L, "ADMIN");
-        Collection<Role> collectionOfRoles = dummyUser.getRoles();
-        collectionOfRoles.add(newRole);
-        dummyUser.setRoles(collectionOfRoles);
+        Role newRole = new Role( "ADMIN");
+        Set<Role> setOfRoles = dummyUser.getRoles();
+        setOfRoles.add(newRole);
+        dummyUser.setRoles(setOfRoles);
         assertTrue(dummyUser.getRoles().contains(newRole));
         assertEquals(2, dummyUser.getRoles().size());
     }
 
     @Test
     void addMultipleRoles() {
-        Role userRole = new Role(1L, "USER");
-        Role adminRole = new Role (2L, "ADMIN");
-        Role sysAdminRole = new Role (3L, "SYSADMIN");
-        Collection<Role> newRoleCollection = new ArrayList<>();
-        newRoleCollection.addAll(Arrays.asList(userRole, adminRole,sysAdminRole));
-        dummyUser.setRoles(newRoleCollection);
+        Role userRole = new Role( "USER");
+        Role adminRole = new Role ( "ADMIN");
+        Role sysAdminRole = new Role ( "SYSADMIN");
+        Set<Role> newSetCollection = new HashSet<>();
+        newSetCollection.addAll(Arrays.asList(userRole, adminRole,sysAdminRole));
+        dummyUser.setRoles(newSetCollection);
         assertTrue(dummyUser.getRoles().contains(adminRole));
         assertTrue(dummyUser.getRoles().contains(userRole));
         assertTrue(dummyUser.getRoles().contains(sysAdminRole));
-        assertFalse(dummyUser.getRoles().contains(new Role(4L, "potato")));
+        assertFalse(dummyUser.getRoles().contains(new Role( "potato")));
     }
 
 
@@ -111,28 +106,28 @@ class UserTest {
 
     @Test
     void testEquals() {
-        Role newRole = new Role(1L, "USER");
-        Collection<Role> newCollectionRoles = new ArrayList<>();
-        newCollectionRoles.add(newRole);
-        User newUser = new User(1L, "Pedro", "Perez", "pedro.perez@gmail.com", "password", newCollectionRoles );
+        Role newRole = new Role( "USER");
+        Set<Role> newSetCollection = new HashSet<>();
+        newSetCollection.add(newRole);
+        User newUser = new User( "Pedro", "Perez", "pedro.perez@gmail.com", "password", newSetCollection );
         assertEquals(dummyUser, newUser);
     }
 
     @Test
     void testHashCode() {
-        Role newRole = new Role(1L, "USER");
-        Collection<Role> newCollectionRoles = new ArrayList<>();
-        newCollectionRoles.add(newRole);
-        User newUser = new User(1L, "Pedro", "Perez", "pedro.perez@gmail.com", "password", newCollectionRoles );
+        Role newRole = new Role( "USER");
+        Set<Role> newSetCollection = new HashSet<>();
+        newSetCollection.add(newRole);
+        User newUser = new User( "Pedro", "Perez", "pedro.perez@gmail.com", "password", newSetCollection );
         assertEquals(dummyUser.hashCode(), newUser.hashCode());
     }
 
     @Test
     void testToString() {
-        Role newRole = new Role(1L, "USER");
-        Collection<Role> newCollectionRoles = new ArrayList<>();
-        newCollectionRoles.add(newRole);
-        User newUser = new User(1L, "Pedro", "Perez", "pedro.perez@gmail.com", "password", newCollectionRoles );
+        Role newRole = new Role( "USER");
+        Set<Role> newSetCollection = new HashSet<>();
+        newSetCollection.add(newRole);
+        User newUser = new User("Pedro", "Perez", "pedro.perez@gmail.com", "password", newSetCollection );
         assertEquals(dummyUser.toString(), newUser.toString());
     }
 }

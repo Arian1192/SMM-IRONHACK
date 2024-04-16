@@ -10,13 +10,9 @@ class RoleTest {
     static Role dummyRole;
     @BeforeEach
     void setUp() {
-        dummyRole = new Role(1L, "USER");
+        dummyRole = new Role( "USER");
     }
 
-    @Test
-    void getId() {
-        assertEquals(1L, dummyRole.getId());
-;    }
 
     @Test
     void getName() {
@@ -38,27 +34,27 @@ class RoleTest {
 
         assertNotEquals("notArole", dummyRole);
 
-        Role newRole = new Role(1L, "USER");
+        Role newRole = new Role( "USER");
         assertEquals(dummyRole, newRole);
     }
 
     @Test
     void testHashCode() {
-        Role newRole = new Role (1L, "USER");
+        Role newRole = new Role ( "USER");
         assertEquals(dummyRole.hashCode(), newRole.hashCode());
     }
 
     @Test
     void testHashCodeDifferentValuesSameHashCode() {
-        Role role1 = new Role(1L, "USER");
-        Role role2 = new Role(1L, "ADMIN");
+        Role role1 = new Role( "USER");
+        Role role2 = new Role( "ADMIN");
         assertNotEquals(role1.hashCode(), role2.hashCode());
     }
 
     @Test
     void testEqualsDifferentObjects() {
-        Role role1 = new Role(1L, "USER");
-        Role role2 = new Role(2L, "ADMIN");
+        Role role1 = new Role( "USER");
+        Role role2 = new Role( "ADMIN");
         assertNotEquals(role1, role2);
     }
 
@@ -66,7 +62,7 @@ class RoleTest {
 
     @Test
     void testToString() {
-        Role newRole = new Role (1L, "USER");
+        Role newRole = new Role ( "USER");
         assertEquals(dummyRole.toString(), newRole.toString());
     }
 }

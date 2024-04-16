@@ -1,12 +1,9 @@
 package com.ssm.systemmeetmanagement.security.filters;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssm.systemmeetmanagement.model.User;
 import com.ssm.systemmeetmanagement.service.dto.EmailAndPasswordDto;
 import com.ssm.systemmeetmanagement.utils.Utilities;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
