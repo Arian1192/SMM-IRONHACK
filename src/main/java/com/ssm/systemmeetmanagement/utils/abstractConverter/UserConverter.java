@@ -27,10 +27,6 @@ public class UserConverter extends AbstractConverter<User, UserDto> {
         user.setSurname(dto.getSurname());
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
-        user.setEnabled(dto.isEnabled());
-        user.setAccountNoExpired(dto.isAccountNoExpired());
-        user.setAccountNoLocked(dto.isAccountNoLocked());
-        user.setCredentialNoExpired(dto.isCredentialNoExpired());
         if(roles.isEmpty()){
             user.setRoles(null);
         }
@@ -50,10 +46,6 @@ public class UserConverter extends AbstractConverter<User, UserDto> {
         user.setName(entity.getName());
         user.setPassword(entity.getPassword());
         user.setRoles(roleDtos);
-        user.setAccountNoLocked(entity.isAccountNoLocked());
-        user.setEnabled(entity.isEnabled());
-        user.setAccountNoExpired(entity.isAccountNoExpired());
-        user.setCredentialNoExpired(entity.isCredentialNoExpired());
         return user;
     }
 

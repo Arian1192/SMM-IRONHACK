@@ -6,16 +6,24 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.mapping.Join;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user")
-public class User {
+@Builder
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -29,18 +37,42 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    @Column(name = "is_enabled")
-    private boolean isEnabled;
-    @Column(name = "account_No_Expired")
-    private boolean accountNoExpired;
-    @Column(name = "account_No_Locked")
-    private boolean accountNoLocked;
-    @Column(name = "credential_NO_Expired")
-    private boolean credentialNoExpired;
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .toList();
+    }
+
+    @Override
+    public String getUsername() {
+        //We use email;
+        return getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     public User(String name, String surname, String email, String password, Set<Role> roles) {
         setEmail(email);
@@ -50,17 +82,6 @@ public class User {
         setRoles(roles);
     }
 
-    public User(String name, String surname, String email, String password, boolean isEnabled, boolean accountNoExpired, boolean accountNoLocked, boolean credentialNoExpired, Set<Role> roles) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.isEnabled = isEnabled;
-        this.accountNoExpired = accountNoExpired;
-        this.accountNoLocked = accountNoLocked;
-        this.credentialNoExpired = credentialNoExpired;
-        this.roles = roles;
-    }
 
     public User(String name, String surname, String email) {
         setName(name);

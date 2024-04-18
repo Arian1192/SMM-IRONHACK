@@ -11,25 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@PreAuthorize("denyAll()")
 public class UserController {
-    @Autowired
-    private IUserService iUserService;
-//    @PostMapping("/admin/register")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public void createNewUser(@RequestBody UserDto userDto){
-//        iUserService.createNewUser(new UserConverter().fromDto(userDto));
-//    }
 
-    @GetMapping("/hello")
-    @PreAuthorize("permitAll()")
-    public String hello(){
-        return "HOLA MUNDO";
-    }
 
-    @GetMapping("/auth/hello")
-    @PreAuthorize("hasAuthority('CREATE')")
-    public String securedHello(){
-        return "HOLA MUNDO SEGURO";
-    }
 }

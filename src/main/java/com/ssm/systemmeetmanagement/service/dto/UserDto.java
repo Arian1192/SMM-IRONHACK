@@ -14,8 +14,8 @@ public class UserDto {
     private  String password;
     private Set<RoleDto> roles;
     private boolean isEnabled;
-    private boolean isAccountNoExpired;
-    private boolean isCredentialNoExpired;
-    private boolean isAccountNoLocked;
+    private boolean accountNoExpired;
+    private boolean credentialNoExpired;
+    private boolean accountNoLocked;
 
 }
