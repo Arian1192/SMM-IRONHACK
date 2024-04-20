@@ -20,10 +20,6 @@ import java.util.*;
 @Service
 public class UserServiceImplementation implements IUserService {
 
-    @Override
-    public void createNewUser(User user) {
-
-    }
 
     @Autowired
     private UserRepository userRepository;
@@ -35,20 +31,6 @@ public class UserServiceImplementation implements IUserService {
     public void save(User user) {
         userRepository.save(user);
     }
-
-//
-//    @Override
-//    public void createNewUser(User user) {
-//        user.setRoles(Collections.singleton(roleRepository.findByName("USER").orElseGet(this::createAndSaveUserRole)));
-//        user.setPassword(Utilities.generateRandomPassword());
-//        userRepository.save(user);
-//        // Mandar un mail con las credenciales al usuario para que se conecte y cambie su contraseña.
-//    }
-//
-////    private Role createAndSaveUserRole(){
-////        RoleDto userRoleDto = new RoleDto("USER");
-////        return roleRepository.save(new RoleConverter().fromDto(userRoleDto));
-////    }
 
     @Override
     public Optional<List<User>> findAllUsers() {

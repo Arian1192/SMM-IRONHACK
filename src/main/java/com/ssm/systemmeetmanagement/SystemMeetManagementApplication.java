@@ -8,6 +8,7 @@ import com.ssm.systemmeetmanagement.repository.RoleRepository;
 import com.ssm.systemmeetmanagement.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,38 +28,46 @@ public class SystemMeetManagementApplication {
 		SpringApplication.run(SystemMeetManagementApplication.class, args);
 	}
 
+
+	@Value("${app.test.enabled}")
+	private boolean isTestRunning;
+
 	@Bean
 	CommandLineRunner init(UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository){
-		return args -> {
-			/* CREATE PERMISSIONS */
-			PermissionEntity permissionCreate = new PermissionEntity("CREATE");
-			PermissionEntity permissionRead = new PermissionEntity("READ");
-			PermissionEntity permissionUpdate = new PermissionEntity("UPDATE");
-			PermissionEntity permissionDelete = new PermissionEntity("DELETE");
-			permissionRepository.saveAll(Arrays.asList(permissionCreate, permissionRead, permissionUpdate, permissionDelete));
+		if(isTestRunning){
+			return args -> {};
+		}else{
+			return args -> {
+				/* CREATE PERMISSIONS */
+				PermissionEntity permissionCreate = new PermissionEntity("CREATE");
+				PermissionEntity permissionRead = new PermissionEntity("READ");
+				PermissionEntity permissionUpdate = new PermissionEntity("UPDATE");
+				PermissionEntity permissionDelete = new PermissionEntity("DELETE");
+				permissionRepository.saveAll(Arrays.asList(permissionCreate, permissionRead, permissionUpdate, permissionDelete));
 
-			/* CREATE ROLES */
-			Role sysAdminRole = new Role("SYSADMIN");
-			sysAdminRole.setPermissionEntityList(Set.of(permissionCreate, permissionRead, permissionUpdate, permissionDelete));
-			Role adminRole = new Role("ADMIN");
-			adminRole.setPermissionEntityList(Set.of(permissionRead, permissionCreate, permissionUpdate));
-			Role userRole = new Role("USER");
-			userRole.setPermissionEntityList(Set.of(permissionRead, permissionUpdate));
-			roleRepository.saveAll(Arrays.asList(sysAdminRole, adminRole, userRole));
+				/* CREATE ROLES */
+				Role sysAdminRole = new Role("SYSADMIN");
+				sysAdminRole.setPermissionEntityList(Set.of(permissionCreate, permissionRead, permissionUpdate, permissionDelete));
+				Role adminRole = new Role("ADMIN");
+				adminRole.setPermissionEntityList(Set.of(permissionRead, permissionCreate, permissionUpdate));
+				Role userRole = new Role("USER");
+				userRole.setPermissionEntityList(Set.of(permissionRead, permissionUpdate));
+				roleRepository.saveAll(Arrays.asList(sysAdminRole, adminRole, userRole));
 
-			Set<Role> roles = new HashSet<>();
-			roles.add(sysAdminRole);
+				Set<Role> roles = new HashSet<>();
+				roles.add(sysAdminRole);
 
-			/* CREATE SYSADMIN */
-			User sysAdminUser = new User("Arian",
-					"Collaso",
-					"arian.collaso.rodriguez@gmail.com",
-					passwordEncoder.encode("40S4r3dder"),
-					roles
-			);
+				/* CREATE SYSADMIN */
+				User sysAdminUser = new User("Arian",
+						"Collaso",
+						"arian.collaso.rodriguez@gmail.com",
+						passwordEncoder.encode("40S4r3dder"),
+						roles
+				);
 
-			userRepository.save(sysAdminUser);
+				userRepository.save(sysAdminUser);
 
-		};
+			};
+		}
 	}
 }

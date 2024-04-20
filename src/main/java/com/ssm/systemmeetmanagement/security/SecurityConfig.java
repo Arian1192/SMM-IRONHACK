@@ -28,7 +28,7 @@ public class SecurityConfig {
                     .csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(authRequest ->
                             authRequest
-                                    .requestMatchers("/api/auth/register").authenticated()
+                                    .requestMatchers("/api/auth/register").hasAuthority("SYSADMIN")
                                     .requestMatchers("/api/auth/login").permitAll()
                                     .anyRequest().authenticated()
                     )

@@ -1,12 +1,13 @@
 package com.ssm.systemmeetmanagement.service.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@NoArgsConstructor(force = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class EmailAndPasswordDto {
-    final String email;
-    final String password;
+    String email;
+    String password;
 
 }

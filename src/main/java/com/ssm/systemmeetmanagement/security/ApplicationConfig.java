@@ -1,6 +1,7 @@
 package com.ssm.systemmeetmanagement.security;
 
 import com.ssm.systemmeetmanagement.repository.UserRepository;
+import com.ssm.systemmeetmanagement.service.implementations.UserDetailServiceImplementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,8 +43,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return email -> userRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("User not found"));
-
+       return new UserDetailServiceImplementation();
     }
 
 

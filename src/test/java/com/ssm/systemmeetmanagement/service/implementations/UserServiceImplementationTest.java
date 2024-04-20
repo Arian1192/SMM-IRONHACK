@@ -37,11 +37,10 @@ class UserServiceImplementationTest {
     void setUp() {
         adminRole = new Role("ADMIN");
         userRole = new Role("USER");
-        roleRepository.saveAll(Arrays.asList(adminRole, userRole));
+        roleRepository.saveAll(Arrays.asList(adminRole,userRole));
         Set<Role> setOfRoles = new HashSet<>(Arrays.asList(adminRole, userRole));
         newUser = new User("Arian", "Collaso", "arian.collaso.rodrigues@gmail.com", "password", setOfRoles );
         userService.save(newUser);
-
     }
     @AfterEach
    void tearDown() {
@@ -54,7 +53,7 @@ class UserServiceImplementationTest {
         Optional<List<User>> maybeListOfUser = userService.findAllUsers();
         if(maybeListOfUser.isPresent()){
             List<User> listOfUser = maybeListOfUser.get();
-            assertEquals("Arian", listOfUser.get(0).getName());
+            assertEquals(1, listOfUser.size());
         }
     }
 
@@ -62,8 +61,8 @@ class UserServiceImplementationTest {
     void test_findAllUsersByRoles() {
         Optional<List<User>> maybeListOfUser = userService.findAllUsersByRoles(adminRole);
         if(maybeListOfUser.isPresent()){
-            List<User> listOfUser = maybeListOfUser.get();
-            assertEquals("Arian", listOfUser.get(0).getName());
+            List<User> list = maybeListOfUser.get();
+            assertEquals(1, list.size());
         }
     }
 
@@ -73,16 +72,4 @@ class UserServiceImplementationTest {
         user.ifPresent(userFound -> assertEquals("Arian", userFound.getName()));
     }
 
-    @Test
-    void createNewUser() {
-        User newUser = new User("Julian", "Perez", "julia.perez@gmail.com");
-        userService.createNewUser(newUser);
-        Optional<List<User>> maybeListOfUsers = userService.findAllUsers();
-        if(maybeListOfUsers.isPresent()){
-            List<User> listOfUser = maybeListOfUsers.get();
-            Collection<Role> roles = listOfUser.get(1).getRoles();
-            assertFalse(roles.isEmpty());
-            assertTrue(roles.stream().anyMatch(role -> role.getName().equals("USER")));
-        }
-    }
 }
