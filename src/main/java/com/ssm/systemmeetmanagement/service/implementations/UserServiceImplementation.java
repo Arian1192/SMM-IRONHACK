@@ -1,20 +1,31 @@
 package com.ssm.systemmeetmanagement.service.implementations;
 
+
 import com.ssm.systemmeetmanagement.model.Role;
 import com.ssm.systemmeetmanagement.model.User;
+import com.ssm.systemmeetmanagement.repository.RoleRepository;
 import com.ssm.systemmeetmanagement.repository.UserRepository;
+import com.ssm.systemmeetmanagement.service.dto.UserDto;
 import com.ssm.systemmeetmanagement.service.interfaces.IUserService;
+
+import com.ssm.systemmeetmanagement.utils.abstractConverter.UserConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
-public class UserImplementation implements IUserService {
+public class UserServiceImplementation implements IUserService {
+
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public void save(User user) {
@@ -35,4 +46,6 @@ public class UserImplementation implements IUserService {
     public Optional<User> findUserById(Long id) {
         return userRepository.findById(id);
     }
+
+
 }

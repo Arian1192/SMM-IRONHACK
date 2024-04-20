@@ -16,7 +16,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class UserImplementationTest {
+class UserServiceImplementationTest {
 
     @Autowired
     private IUserService userService;
@@ -29,17 +29,18 @@ class UserImplementationTest {
 
     private static Role adminRole;
 
+    private Role userRole;
+
     private static User newUser;
 
     @BeforeEach
     void setUp() {
         adminRole = new Role("ADMIN");
-        Role userRole = new Role("USER");
-        roleRepository.saveAll(Arrays.asList(adminRole, userRole));
-        Collection<Role> collectionsOfRoles = new ArrayList<>(Arrays.asList(adminRole, userRole));
-        newUser = new User("Arian", "Collaso", "arian.collaso.rodrigues@gmail.com", "password", collectionsOfRoles );
+        userRole = new Role("USER");
+        roleRepository.saveAll(Arrays.asList(adminRole,userRole));
+        Set<Role> setOfRoles = new HashSet<>(Arrays.asList(adminRole, userRole));
+        newUser = new User("Arian", "Collaso", "arian.collaso.rodrigues@gmail.com", "password", setOfRoles );
         userService.save(newUser);
-
     }
     @AfterEach
    void tearDown() {
@@ -52,7 +53,7 @@ class UserImplementationTest {
         Optional<List<User>> maybeListOfUser = userService.findAllUsers();
         if(maybeListOfUser.isPresent()){
             List<User> listOfUser = maybeListOfUser.get();
-            assertEquals("Arian", listOfUser.get(0).getName());
+            assertEquals(1, listOfUser.size());
         }
     }
 
@@ -60,8 +61,8 @@ class UserImplementationTest {
     void test_findAllUsersByRoles() {
         Optional<List<User>> maybeListOfUser = userService.findAllUsersByRoles(adminRole);
         if(maybeListOfUser.isPresent()){
-            List<User> listOfUser = maybeListOfUser.get();
-            assertEquals("Arian", listOfUser.get(0).getName());
+            List<User> list = maybeListOfUser.get();
+            assertEquals(1, list.size());
         }
     }
 
@@ -70,4 +71,5 @@ class UserImplementationTest {
         Optional<User> user = userService.findUserById(newUser.getId());
         user.ifPresent(userFound -> assertEquals("Arian", userFound.getName()));
     }
+
 }
