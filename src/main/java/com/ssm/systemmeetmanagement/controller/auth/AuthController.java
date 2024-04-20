@@ -5,10 +5,7 @@ import com.ssm.systemmeetmanagement.service.interfaces.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,6 +25,12 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request){
         System.out.println("PASO POR AQUI REGISTER");
         return ResponseEntity.ok(authService.register(request));
+    }
+
+    @PatchMapping("/promote")
+        public ResponseEntity<PromoteResponse> promote(@RequestBody RegisterRequest request ){
+        System.out.println("PASO POR AQUI PARA PROMOCIONAR UN USUARIO");
+        return ResponseEntity.ok(authService.promote(request));
     }
 
 }
