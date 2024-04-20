@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,6 +53,7 @@ class AuthControllerTest {
     private PasswordEncoder passwordEncoder;
 
     private MockMvc mockMvc;
+
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
@@ -103,6 +105,34 @@ class AuthControllerTest {
         ).andExpect(status().isOk()).andReturn();
     }
 
+    public MvcResult createUser(Set<RoleDto> roles, String typeRequest) throws Exception {
+        MvcResult mvcResultAdmin = createSysAdmin();
+        String authToken = mvcResultAdmin.getResponse().getContentAsString();
+        RegisterUserDto registerUserDto = new RegisterUserDto("Arian", "arian", "arianlearning@gmail.com", roles);
+        String bodyRegister = new ObjectMapper().writeValueAsString(registerUserDto);
+        if(typeRequest == "post"){
+            return mockMvc.perform(post("/api/auth/register")
+                            .content(bodyRegister)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
+                    .andReturn();
+        }else{
+            return mockMvc.perform(patch("/api/auth/promote")
+                            .content(bodyRegister)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
+                    .andReturn();
+        }
+
+    }
+
+    public Set<RoleDto> findRole (String role) {
+        RoleDto roleFound = new RoleConverter().fromEntity(roleRepository.findByName(role).orElseThrow());
+        Set<RoleDto> roles = new HashSet<>();
+        roles.add(roleFound);
+        return roles;
+    }
+
     @Test
     void login() throws Exception {
         MvcResult mvcResult = createSysAdmin();
@@ -111,20 +141,14 @@ class AuthControllerTest {
 
     @Test
     void register() throws Exception {
-        MvcResult mvcResultAdmin = createSysAdmin();
-        String authToken = mvcResultAdmin.getResponse().getContentAsString();
-        RoleDto role = new RoleConverter().fromEntity(roleRepository.findByName("USER").orElseThrow());
-        Set<RoleDto> roles = new HashSet<>();
-        roles.add(role);
-        RegisterUserDto registerUserDto = new RegisterUserDto("Pedro", "Ramirez", "pedro.ramirez@gmail.com", roles);
-        String bodyRegister = new ObjectMapper().writeValueAsString(registerUserDto);
-        MvcResult mvcResult = mockMvc.perform(post("/api/auth/register")
-                .content(bodyRegister)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
-                .andReturn();
+        MvcResult mvcResult = createUser(findRole("USER"), "post");
         assertEquals(200, mvcResult.getResponse().getStatus());
     }
 
-
+    @Test
+    void promote() throws Exception {
+        createUser(findRole("USER"), "post");
+        MvcResult response = createUser(findRole("ADMIN"), "patch");
+        assertEquals(200, response.getResponse().getStatus());
+    }
 }

@@ -22,6 +22,7 @@ jobs:
       MYSQL_DATABASE: smm_management
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: root
+      TOKEN: ${{env.TOKEN}}
 
     steps:
     - name: Set up MySQL
