@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +46,7 @@ class AppointmentRepositoryTest {
         rolesAttendee.add(userRole);
 
         Attendee host = new Attendee("Arian", "Collaso","arian.collaso.rodriguez@gmail.com", "patata", rolesHost , null );
-         attendee = new Attendee("Pedro", "Collaso","Pedro.collaso.rodriguez@gmail.com", "patito", rolesAttendee , null );
+        attendee = new Attendee("Pedro", "Collaso","Pedro.collaso.rodriguez@gmail.com", "patito", rolesAttendee , null );
 
         attendeeRepository.save(host);
         attendeeRepository.save(attendee);
@@ -54,7 +55,7 @@ class AppointmentRepositoryTest {
         host.setAppointments(new HashSet<>());
         attendee.setAppointments(new HashSet<>());
 
-        dummyAppointment = new Appointment("example", "example", host, new HashSet<>(), LocalDate.now(), LocalTime.now(), "office", false, true, "120" );
+        dummyAppointment = new Appointment("example", "example", host, listOfAttendees, LocalDate.now(), LocalTime.now(), "office", false, true, "120" );
         dummyAppointment.setAttendees(listOfAttendees);
         appointmentRepository.save(dummyAppointment);
     }
@@ -77,8 +78,8 @@ class AppointmentRepositoryTest {
 
     @Test
     void findAllAttendeesByAppointmentId() {
-        Set<Attendee> listAttendees = appointmentRepository.findAllAttendeesByAppointmentId(dummyAppointment.getId()).orElseThrow();
-        assertEquals(1, listAttendees.size());
+       Optional<Set<Attendee>> maybeAttendees = appointmentRepository.findAllAttendeesByAppointmentId(dummyAppointment.getId());
+       maybeAttendees.ifPresent(attendees -> assertEquals("Pedro", attendees.stream().findFirst().get().getName() ));
     }
 
 

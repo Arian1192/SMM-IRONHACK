@@ -34,7 +34,7 @@ public class Appointment {
             joinColumns = @JoinColumn(name = "appointment_id"),
             inverseJoinColumns = @JoinColumn(name = "attendee_id")
     )
-    private Set<Attendee> attendees = new HashSet<>();
+    private Set<Attendee> attendees;
 
     private LocalDate date;
     private LocalTime time;
