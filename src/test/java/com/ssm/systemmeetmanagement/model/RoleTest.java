@@ -43,7 +43,7 @@ class RoleTest {
         Role newRole = new Role ( "USER");
         assertEquals(dummyRole.hashCode(), newRole.hashCode());
     }
-
+ 
     @Test
     void testHashCodeDifferentValuesSameHashCode() {
         Role role1 = new Role( "USER");

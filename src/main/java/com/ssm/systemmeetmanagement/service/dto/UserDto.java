@@ -2,7 +2,6 @@ package com.ssm.systemmeetmanagement.service.dto;
 
 import lombok.*;
 
-import java.util.Collection;
 import java.util.Set;
 
 @Data
