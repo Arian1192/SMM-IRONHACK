@@ -4,20 +4,22 @@ import com.ssm.systemmeetmanagement.model.Appointment;
 import com.ssm.systemmeetmanagement.repository.AppointmentRepository;
 import com.ssm.systemmeetmanagement.service.interfaces.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@Service
 public class AppointmentServiceImplementation implements IAppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
-    @Override
-    public void save(Appointment appointment) {
-
-    }
+//    @Override
+//    public Appointment save(Appointment appointment) {
+//        return Optional.empty()
+//    }
 
     @Override
     public List<Appointment> getAllAppointments() {

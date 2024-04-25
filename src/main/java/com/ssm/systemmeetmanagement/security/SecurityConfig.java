@@ -27,13 +27,13 @@ public class SecurityConfig {
     private final AuthenticationProvider authProvider;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Any httpRequest going to be authenticated by default.
             return http
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(authRequest ->
                             authRequest
                                     .requestMatchers(AUTH_WHITE_LIST).permitAll()
                                     .requestMatchers("/api/auth/register").hasAuthority("SYSADMIN")
+                                    .requestMatchers("/api/appointment/new_appointment").hasAuthority("ADMIN")
                                     .requestMatchers("/api/auth/login").permitAll()
                                     .anyRequest().authenticated()
                     )

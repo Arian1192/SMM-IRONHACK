@@ -109,9 +109,7 @@ class AppointmentServiceImplementationTest {
     @Test
     void getAllAppointmentsByHost() {
         Optional<List<Appointment>> maybeListOfAppointments = appointmentRepository.findAllAppointmentByHostName("Arian");
-        if(maybeListOfAppointments.isPresent()){
-            assertEquals(1, maybeListOfAppointments.get().size());
-        }
+        maybeListOfAppointments.ifPresent(appointments -> assertEquals(1, appointments.size()));
     }
 
     @Test

@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Table(name = "user")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Builder
 public class User implements UserDetails {
     @Id
