@@ -18,7 +18,6 @@ class UserTest {
         Role newRole = new Role( "USER");
         Set<Role> newSetRoles = new HashSet<>();
         newSetRoles.add(newRole);
-
         dummyUser = new User("Pedro", "Perez", "pedro.perez@gmail.com", "password", newSetRoles  );
 
     }

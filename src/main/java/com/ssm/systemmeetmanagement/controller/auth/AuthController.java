@@ -2,9 +2,10 @@ package com.ssm.systemmeetmanagement.controller.auth;
 
 
 import com.ssm.systemmeetmanagement.service.interfaces.IAuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,20 +17,18 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
-
-        System.out.println("PASO POR AQUI");
         return ResponseEntity.ok(authService.login(request));
     }
 
    @PostMapping("/register")
+   @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request){
-        System.out.println("PASO POR AQUI REGISTER");
         return ResponseEntity.ok(authService.register(request));
     }
 
     @PatchMapping("/promote")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
         public ResponseEntity<PromoteResponse> promote(@RequestBody RegisterRequest request ){
-        System.out.println("PASO POR AQUI PARA PROMOCIONAR UN USUARIO");
         return ResponseEntity.ok(authService.promote(request));
     }
 

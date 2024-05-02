@@ -45,8 +45,8 @@ public class AuthServiceImplementation implements IAuthService {
     @Autowired
     private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private EmailServiceImplementation emailService = new EmailServiceImplementation();
+//    @Autowired
+//    private EmailServiceImplementation emailService = new EmailServiceImplementation();
 
     @Override
     public AuthResponse login(LoginRequest request) {
@@ -71,7 +71,8 @@ public class AuthServiceImplementation implements IAuthService {
                 .build();
         log.info(password);
         userRepository.save(user);
-        emailService.sendNewUserEmail(user.getName(), user.getEmail(), password);
+        System.out.println(user.getPassword()+ " PASSWORD " );
+//        emailService.sendNewUserEmail(user.getName(), user.getEmail(), password);
         return AuthResponse.builder().token(jwtService.getToken(user)).build();
     }
 
@@ -93,7 +94,7 @@ public class AuthServiceImplementation implements IAuthService {
             userRepository.save(userPromoted);
         Set<Role> getRoles = userPromoted.getRoles();
         Role adminRole = getRoles.stream().findFirst().orElseThrow();
-        emailService.sendPromotedUserEmail(userPromoted.getName(), userPromoted.getEmail(), adminRole);
+//        emailService.sendPromotedUserEmail(userPromoted.getName(), userPromoted.getEmail(), adminRole);
         } );
         return PromoteResponse.builder().response("User promoted successfully").build();
     }

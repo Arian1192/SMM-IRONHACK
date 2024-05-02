@@ -19,25 +19,26 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Table(name = "user")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Builder
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
-    @NotEmpty(message = "You must supply a user name")
     private String name;
-    @NotEmpty(message = "You must supply a user surname")
     private String surname;
-    @Email(message = "You must supply a valid email", regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")
-    @NotEmpty(message = "You must supply a email")
+    @Email(message = "You must supply a valid email", regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
     @Column(unique = true)
     private String email;
     private String password;
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -82,7 +83,6 @@ public class User implements UserDetails {
         setSurname(surname);
         setRoles(roles);
     }
-
 
     public User(String name, String surname, String email) {
         setName(name);
