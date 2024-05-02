@@ -21,4 +21,12 @@ public class Attendee extends User{
         this.appointments = appointments;
     }
 
+    public void setUser(User user){
+        setEmail(user.getEmail());
+        setName(user.getName());
+        setSurname(getSurname());
+        setRoles(user.getRoles());
+        setPassword(user.getPassword());
+    }
+
 }

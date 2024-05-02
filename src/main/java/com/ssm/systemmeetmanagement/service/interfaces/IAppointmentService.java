@@ -7,11 +7,13 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface IAppointmentService {
-//    Appointment save(Appointment appointment);
+    Appointment save(Appointment appointment);
     List<Appointment> getAllAppointments();
     Optional<Appointment> getAppointmentById(Long id);
     Optional<List<Appointment>> getAllAppointmentsByHost(String hostName);
-
     Optional<Set<Appointment>> getAllAppointmentsByDate(LocalDate date);
+
+    void deleteAppointmentById(long id);
+
 
 }

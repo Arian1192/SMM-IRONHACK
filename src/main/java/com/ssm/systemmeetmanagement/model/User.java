@@ -28,12 +28,9 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
-    @NotEmpty(message = "You must supply a user name")
     private String name;
-    @NotEmpty(message = "You must supply a user surname")
     private String surname;
     @Email(message = "You must supply a valid email", regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-    @NotEmpty(message = "You must supply a email")
     @Column(unique = true)
     private String email;
     private String password;

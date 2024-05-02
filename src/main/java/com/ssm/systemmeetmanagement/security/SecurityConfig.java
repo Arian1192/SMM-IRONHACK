@@ -21,6 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final String sysAdmin = "SYSADMIN";
+    private final String admin = "ADMIN";
+    private final String user = "USER";
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -32,8 +35,11 @@ public class SecurityConfig {
                     .authorizeHttpRequests(authRequest ->
                             authRequest
                                     .requestMatchers(AUTH_WHITE_LIST).permitAll()
-                                    .requestMatchers("/api/auth/register").hasAuthority("SYSADMIN")
-                                    .requestMatchers("/api/appointment/new_appointment").hasAuthority("ADMIN")
+                                    .requestMatchers("/api/auth/register").hasAuthority(sysAdmin)
+                                    .requestMatchers("/api/appointment/new_appointment").hasAnyAuthority(sysAdmin, admin)
+                                    .requestMatchers("/api/appointment/get_appointment/**").authenticated()
+                                    .requestMatchers("/api/appointment/modify_appointment/**").hasAnyAuthority(sysAdmin, admin, user)
+                                    .requestMatchers("/api/appointment/delete_appointment/**").hasAuthority(sysAdmin)
                                     .requestMatchers("/api/auth/login").permitAll()
                                     .anyRequest().authenticated()
                     )

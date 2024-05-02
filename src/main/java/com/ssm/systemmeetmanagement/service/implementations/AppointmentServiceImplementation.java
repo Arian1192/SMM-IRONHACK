@@ -16,10 +16,10 @@ public class AppointmentServiceImplementation implements IAppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
-//    @Override
-//    public Appointment save(Appointment appointment) {
-//        return Optional.empty()
-//    }
+    @Override
+    public Appointment save(Appointment appointment) {
+        return appointmentRepository.save(appointment);
+    }
 
     @Override
     public List<Appointment> getAllAppointments() {
@@ -35,9 +35,13 @@ public class AppointmentServiceImplementation implements IAppointmentService {
     public Optional<List<Appointment>> getAllAppointmentsByHost(String hostName) {
         return appointmentRepository.findAllAppointmentByHostName(hostName);
     }
-
     @Override
     public Optional<Set<Appointment>> getAllAppointmentsByDate(LocalDate date) {
         return Optional.empty();
+    }
+
+    @Override
+    public void deleteAppointmentById(long id) {
+        appointmentRepository.deleteById(id);
     }
 }
