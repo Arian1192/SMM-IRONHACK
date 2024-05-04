@@ -1,9 +1,7 @@
 package com.ssm.systemmeetmanagement.service.implementations;
 
 import com.ssm.systemmeetmanagement.model.Attendee;
-import com.ssm.systemmeetmanagement.model.User;
 import com.ssm.systemmeetmanagement.repository.AttendeeRepository;
-import com.ssm.systemmeetmanagement.repository.UserRepository;
 import com.ssm.systemmeetmanagement.service.interfaces.IAttendeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +30,7 @@ public class AttendeeServiceImplementation implements IAttendeeService {
         return attendeeRepository.findById(id);
     }
 
+    @Override
+    public void deleteById(Long id) { attendeeRepository.deleteById(id);}
 
 }

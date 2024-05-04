@@ -13,7 +13,6 @@ import java.util.*;
 @Service
 public class UserServiceImplementation implements IUserService {
 
-
     @Autowired
     private UserRepository userRepository;
 
@@ -40,5 +39,14 @@ public class UserServiceImplementation implements IUserService {
         return userRepository.findById(id);
     }
 
+    @Override
+    public void deleteById(Long id){
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email){
+       return userRepository.findByEmail(email);
+    }
 
 }
