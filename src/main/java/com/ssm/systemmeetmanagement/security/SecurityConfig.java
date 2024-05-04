@@ -38,9 +38,11 @@ public class SecurityConfig {
                                     .requestMatchers("/api/auth/register").hasAuthority(sysAdmin)
                                     .requestMatchers("/api/appointment/new_appointment").hasAnyAuthority(sysAdmin, admin)
                                     .requestMatchers("/api/appointment/get_appointment/**").authenticated()
+                                    .requestMatchers("/api/appointment/get_allAppointments").hasAuthority(sysAdmin)
                                     .requestMatchers("/api/appointment/modify_appointment/**").hasAnyAuthority(sysAdmin, admin, user)
                                     .requestMatchers("/api/appointment/delete_appointment/**").hasAuthority(sysAdmin)
                                     .requestMatchers("/api/auth/login").permitAll()
+                                    .requestMatchers("/api/users/get_AllUsers").permitAll()
                                     .anyRequest().authenticated()
                     )
                     .sessionManagement(sessionManager ->

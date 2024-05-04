@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/appointment")
 @RequiredArgsConstructor
@@ -41,8 +42,24 @@ public class AppointmentController {
         }else{
             return ResponseUtils.notFoundResponse("Appointment with id: " + id + " not found");
         }
-
     }
+
+    @GetMapping(value = "/get_allAppointments")
+    public ResponseEntity<?> getAllAppointments(){
+        List<Appointment> maybeListOfAppointments = appointmentService.getAllAppointments();
+        if(maybeListOfAppointments.isEmpty()){
+            return ResponseUtils.noContentResponse("No appointments are created");
+        }else{
+            List<AppointmentDto> listOffAppointmentsDto = new ArrayList<>();
+            for(Appointment appointment : maybeListOfAppointments){
+                AppointmentDto appointmentDto = new AppointmentConverter().fromEntity(appointment);
+                listOffAppointmentsDto.add(appointmentDto);
+            }
+            return ResponseEntity.ok(listOffAppointmentsDto);
+        }
+    }
+
+
 
     @PostMapping("/new_appointment")
     public ResponseEntity<AppointmentDto> createNewAppointment(@RequestBody Appointment appointment){
