@@ -11,4 +11,5 @@ public interface IAttendeeService {
     void save(Attendee attendee);
     List<Attendee> findAllAttendees();
     Optional<Attendee> findUserById(Long id);
+    void deleteById(Long id);
 }

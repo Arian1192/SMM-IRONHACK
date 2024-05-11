@@ -10,6 +10,8 @@ import com.ssm.systemmeetmanagement.service.interfaces.IAttendeeService;
 import com.ssm.systemmeetmanagement.service.interfaces.IUserService;
 import com.ssm.systemmeetmanagement.utils.abstractConverter.AppointmentConverter;
 import com.ssm.systemmeetmanagement.utils.ResponseUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/appointment")
 @RequiredArgsConstructor
+
 public class AppointmentController {
 
     private final IAppointmentService appointmentService;
@@ -32,6 +36,7 @@ public class AppointmentController {
     private final IAttendeeService attendeeService;
 
     @GetMapping(value = "/get_appointment/{id}")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<?> getAppointmentById(@PathVariable long id){
         Optional<Appointment> maybeAppointment = appointmentService.getAppointmentById(id);
         if(maybeAppointment.isPresent()){
@@ -41,10 +46,28 @@ public class AppointmentController {
         }else{
             return ResponseUtils.notFoundResponse("Appointment with id: " + id + " not found");
         }
-
     }
 
+    @GetMapping(value = "/get_allAppointments")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<?> getAllAppointments(){
+        List<Appointment> maybeListOfAppointments = appointmentService.getAllAppointments();
+        if(maybeListOfAppointments.isEmpty()){
+            return ResponseUtils.noContentResponse("No appointments are created");
+        }else{
+            List<AppointmentDto> listOffAppointmentsDto = new ArrayList<>();
+            for(Appointment appointment : maybeListOfAppointments){
+                AppointmentDto appointmentDto = new AppointmentConverter().fromEntity(appointment);
+                listOffAppointmentsDto.add(appointmentDto);
+            }
+            return ResponseEntity.ok(listOffAppointmentsDto);
+        }
+    }
+
+
+
     @PostMapping("/new_appointment")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<AppointmentDto> createNewAppointment(@RequestBody Appointment appointment){
         Set<Attendee> attendees = appointment.getAttendees();
         Set<Attendee> updatedAttendees = new HashSet<>();
@@ -91,6 +114,7 @@ public class AppointmentController {
     }
 
     @PutMapping(value = "/update_appointment/{id}")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<?> updateAppointment(@PathVariable long id, @RequestBody Appointment updateAppointment) throws IllegalAccessException {
         Optional<Appointment> maybeAppointment = appointmentService.getAppointmentById(id);
 
@@ -118,6 +142,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping(value = "/delete_appointment/{id}")
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<?> deleteAppointment(@PathVariable long id) {
         Optional<Appointment> appointmentToDelete = appointmentService.getAppointmentById(id);
         if (appointmentToDelete.isPresent()) {

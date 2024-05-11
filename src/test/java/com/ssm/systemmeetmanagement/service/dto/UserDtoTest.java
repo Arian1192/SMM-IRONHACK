@@ -40,11 +40,6 @@ class UserDtoTest {
         assertEquals("example@example.com", dto.getEmail());
     }
 
-    @Test
-    void getPassword() {
-        dto.setPassword("password123");
-        assertEquals("password123", dto.getPassword());
-    }
 
     @Test
     void getRoles() {
@@ -91,11 +86,6 @@ class UserDtoTest {
         assertEquals("test@test.com", dto.getEmail());
     }
 
-    @Test
-    void setPassword() {
-        dto.setPassword("newPassword");
-        assertEquals("newPassword", dto.getPassword());
-    }
 
     @Test
     void setRoles() {

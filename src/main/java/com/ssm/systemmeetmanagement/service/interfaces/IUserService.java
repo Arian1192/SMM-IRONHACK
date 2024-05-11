@@ -11,4 +11,7 @@ public interface IUserService {
     Optional<List<User>> findAllUsers();
     Optional<List<User>> findAllUsersByRoles(Role role);
     Optional<User> findUserById(Long id);
+    void deleteById(Long id);
+
+    Optional<User>  findUserByEmail(String email);
 }

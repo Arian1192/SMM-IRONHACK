@@ -2,9 +2,11 @@ package com.ssm.systemmeetmanagement.service.implementations;
 
 import com.ssm.systemmeetmanagement.model.Role;
 import com.ssm.systemmeetmanagement.service.interfaces.IEmailService;
+import lombok.extern.slf4j.Slf4j;
 import models.SendEnhancedRequestBody;
 import models.SendEnhancedResponseBody;
 import models.SendRequestMessage;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import services.Courier;
@@ -35,7 +37,7 @@ public class EmailServiceImplementation implements IEmailService {
             SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
             System.out.println(response);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -67,7 +69,7 @@ public class EmailServiceImplementation implements IEmailService {
             SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
             System.out.println(response);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 

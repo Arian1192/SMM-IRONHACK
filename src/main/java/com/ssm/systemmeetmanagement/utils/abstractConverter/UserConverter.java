@@ -26,7 +26,6 @@ public class UserConverter extends AbstractConverter<User, UserDto> {
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
         user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
         if(roles.isEmpty()){
             user.setRoles(null);
         }
@@ -43,8 +42,8 @@ public class UserConverter extends AbstractConverter<User, UserDto> {
             roleDtos.add(roleDto);
         }
         user.setEmail(entity.getEmail());
+        user.setSurname(entity.getSurname());
         user.setName(entity.getName());
-        user.setPassword(entity.getPassword());
         user.setRoles(roleDtos);
         return user;
     }
@@ -60,15 +59,15 @@ public class UserConverter extends AbstractConverter<User, UserDto> {
         return permissionEntityDtos;
     }
 
-    private Set<PermissionEntity> convertPermissionEntitiesDtoToEntity(Set<PermissionEntityDto> permissionEntitiesDto) {
-        Set<PermissionEntity> permissionEntity = new HashSet<>();
-
-        for (PermissionEntityDto permissionEntityDto : permissionEntitiesDto) {
-            PermissionEntity permission = new PermissionEntity(permissionEntityDto.getName());
-            permissionEntity.add(permission);
-        }
-
-        return permissionEntity;
-    }
+//    private Set<PermissionEntity> convertPermissionEntitiesDtoToEntity(Set<PermissionEntityDto> permissionEntitiesDto) {
+//        Set<PermissionEntity> permissionEntity = new HashSet<>();
+//
+//        for (PermissionEntityDto permissionEntityDto : permissionEntitiesDto) {
+//            PermissionEntity permission = new PermissionEntity(permissionEntityDto.getName());
+//            permissionEntity.add(permission);
+//        }
+//
+//        return permissionEntity;
+//    }
 
 }

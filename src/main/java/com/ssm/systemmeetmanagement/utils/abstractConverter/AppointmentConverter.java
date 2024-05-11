@@ -28,6 +28,8 @@ public  class AppointmentConverter extends AbstractConverter<Appointment, Appoin
         appointmentDto.setDuration(entity.getDuration());
         appointmentDto.setLocalTime(entity.getTime());
         appointmentDto.setLocalDate(entity.getDate());
+        appointmentDto.setOnline(entity.getIsOnline());
+        appointmentDto.setOnsite(entity.getIsOnsite());
         if (entity.getHost() != null) {
             AttendeeDto hostDto = new AttendeeConverter().fromEntity(entity.getHost());
             appointmentDto.setHost(hostDto);
