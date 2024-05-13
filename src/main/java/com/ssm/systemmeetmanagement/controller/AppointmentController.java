@@ -5,6 +5,8 @@ import com.ssm.systemmeetmanagement.model.Attendee;
 import com.ssm.systemmeetmanagement.model.User;
 import com.ssm.systemmeetmanagement.repository.UserRepository;
 import com.ssm.systemmeetmanagement.service.dto.AppointmentDto;
+import com.ssm.systemmeetmanagement.service.dto.AttendeeDto;
+import com.ssm.systemmeetmanagement.service.implementations.EmailServiceImplementation;
 import com.ssm.systemmeetmanagement.service.interfaces.IAppointmentService;
 import com.ssm.systemmeetmanagement.service.interfaces.IAttendeeService;
 import com.ssm.systemmeetmanagement.service.interfaces.IUserService;
@@ -14,6 +16,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +37,9 @@ public class AppointmentController {
     private final UserRepository userRepository;
 
     private final IAttendeeService attendeeService;
+
+    @Autowired
+    private final EmailServiceImplementation emailService = new EmailServiceImplementation();
 
     @GetMapping(value = "/get_appointment/{id}")
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
@@ -108,8 +114,12 @@ public class AppointmentController {
 
         appointment.setAttendees(updatedAttendees);
         Appointment savedAppointment = appointmentService.save(appointment);
-        AppointmentDto savedAppointmentDto = new AppointmentConverter().fromEntity(savedAppointment);
 
+        AppointmentDto savedAppointmentDto = new AppointmentConverter().fromEntity(savedAppointment);
+        emailService.sendNewAppointmentCreatedForHost(savedAppointmentDto);
+        for(AttendeeDto attendeeDto: savedAppointmentDto.getAttendees()){
+            emailService.sendNewAppointmentCreatedForAttendees(savedAppointmentDto, attendeeDto);
+        }
         return ResponseEntity.ok(savedAppointmentDto);
     }
 
