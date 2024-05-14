@@ -31,6 +31,7 @@ public class AttendeeConverter extends AbstractConverter<Attendee, AttendeeDto>{
         attendeeDto.setId(entity.getId());
         attendeeDto.setName(entity.getName());
         attendeeDto.setSurname(entity.getSurname());
+        System.out.println(attendeeDto.getSurname());
         attendeeDto.setEmail(entity.getEmail());
         if (entity.getRoles() != null) {
             Set<RoleDto> rolesToAdd = new HashSet<>();

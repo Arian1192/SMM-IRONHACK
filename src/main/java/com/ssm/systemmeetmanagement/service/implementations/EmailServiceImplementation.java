@@ -35,7 +35,6 @@ public class EmailServiceImplementation implements IEmailService {
         request.setMessage(message);
         try {
             SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
-            System.out.println(response);
         } catch (IOException e) {
             e.getMessage();
         }
@@ -47,7 +46,6 @@ public class EmailServiceImplementation implements IEmailService {
     @Override
     public void sendNewUserEmail(String name, String email, String password) {
 
-        System.out.println(token);
         Courier.init(System.getenv("TOKEN"));
 
         SendEnhancedRequestBody request = new SendEnhancedRequestBody();
