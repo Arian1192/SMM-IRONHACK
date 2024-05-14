@@ -86,14 +86,18 @@ public class UserController {
         } else {
             User user = maybeUser.get();
             Class<?> userClass = user.getClass();
-            for(Field field : userClass.getDeclaredFields()) {
-                if (!field.getName().equals("id") && !field.getName().equals("roles")) {
+            for (Field field : userClass.getDeclaredFields()) {
+                if (!field.getName().equals("id") && !field.getName().equals("roles")
+                        && !field.getName().equals("appointments")) {
                     field.setAccessible(true);
                     Object value = field.get(userToUpdate);
+                    System.out.println("Field: " + field.getName() + ", Value: " + value); // Verifica los valores aquí
                     field.set(user, value);
                     field.setAccessible(false);
                 }
             }
+
+
             userService.save(user);
             UserDto userDto = new UserConverter().fromEntity(user);
             return ResponseEntity.ok(userDto);

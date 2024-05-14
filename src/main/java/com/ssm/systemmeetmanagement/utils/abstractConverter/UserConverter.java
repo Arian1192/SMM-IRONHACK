@@ -41,6 +41,7 @@ public class UserConverter extends AbstractConverter<User, UserDto> {
             RoleDto roleDto = new RoleDto(role.getName(), convertPermissionEntitiesToDtos(role.getPermissionEntityList()));
             roleDtos.add(roleDto);
         }
+        user.setId(entity.getId());
         user.setEmail(entity.getEmail());
         user.setSurname(entity.getSurname());
         user.setName(entity.getName());
