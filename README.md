@@ -5,7 +5,7 @@ Este proyecto esta pensado para gestionar y programar meet en un espacio de uso 
 
 El SysAdmin es el encargado de la creación de los usuarios
 
-La contraseña de los usuarios esta generada automaticament y es enviada al usuario por email, utilizando Courier un servicio que nos permite enviar correos y crear plantillas.
+La contraseña de los usuarios esta generada automaticamente y es enviada al usuario por email, utilizando Courier un servicio que nos permite enviar correos y crear plantillas.
 
 
 
@@ -244,8 +244,7 @@ Authenticate with Google: Set up OAuth 2.0 authentication to securely access the
 Develop a function that generates Google Meet links based on appointment details.
 #### Embed Links: 
 Display the generated links within the Appointments interface for quick and easy access.
-#### Tip: 
-Utilize Google's official client libraries for smoother integration and easier maintenance.
+
 
 
 ## Development of a Custom Meeting System:
@@ -260,8 +259,7 @@ Establish a backend server using Node.js with WebRTC support and socket.io for r
 Develop essential features like audio/video calls, screen sharing, chat, and meeting room management.
 #### Integrate with Appointments:
 Integrate the custom meeting system with the Appointments feature to allow users to initiate meetings directly from appointments.
-#### Tip:
-Consider using libraries like socket.io and SimpleWebRTC for streamlined implementation and cross-browser compatibility.
+
 
 Following this plan, we'll be prepared to effectively integrate the Google Meet API and develop our own meeting system, providing us with greater control and flexibility in managing appointments and meetings.
 
